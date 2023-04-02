@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Whisper Audio Model</title>
+</head>
+<body>
+    <form action="/predict" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Predict">
+    </form>
+    <br>
+    <div id="result"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('form').submit(function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: '/predict',
+                data: formData,
+                processData: false,
+                contentType: false,
+                timeout: 0,  // Set timeout to 120 seconds
+                success: function(response) {
+                    $('#result').html(response);
+                },
+                error: function() {
+                    $('#result').html('Error predicting');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
